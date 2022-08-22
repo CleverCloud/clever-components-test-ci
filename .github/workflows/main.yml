@@ -17,5 +17,5 @@ jobs:
     - name: echo
       run: echo "hello from simple action"
       
-    #- name: Try to fail
-    #  run: exit 1
+    - name: Try to fail
+      run: exit 1
