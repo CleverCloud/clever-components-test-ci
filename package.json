@@ -1,0 +1,27 @@
+{
+  "name": "@pdesoyres/test-ci",
+  "version": "9.0.0",
+  "description": "CI test",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CleverCloud/clever-components-test-ci.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prepack": "mkdir -p dist && cp src/index.js dist"
+  },
+  "devDependencies": {
+  },
+  "volta": {
+    "node": "16.13.2",
+    "npm": "8.1.2"
+  }
+}
