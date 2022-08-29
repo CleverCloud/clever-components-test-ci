@@ -39,3 +39,10 @@ jobs:
       - env:
           CC_SECRET: ${{ secrets.CC_SECRET }}
         run: echo $CC_SECRET
+      - name: print secret
+        run: echo ${{ secrets.CC_SECRET }}
+      - env:
+          CC_SECRET2: ${{ secrets.CC_SECRET2 }}
+        run: echo $CC_SECRET2
+      - name: print secret2
+        run: echo ${{ secrets.CC_SECRET2 }}
