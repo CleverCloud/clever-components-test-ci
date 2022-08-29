@@ -1,0 +1,21 @@
+name: two_jobs
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: echo
+        run: echo "hello from job 1"
+  job2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: echo
+        run: echo "hello from job2"
