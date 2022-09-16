@@ -1,0 +1,28 @@
+{
+  "name": "@clevercloud/test-ci",
+  "version": "1.0.0",
+  "description": "CI test",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CleverCloud/clever-components.git"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "release": "semantic-release"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.1",
+    "sementic-release": "^1.5.1"
+  },
+  "volta": {
+    "node": "16.13.2",
+    "npm": "8.1.2"
+  }
+}
