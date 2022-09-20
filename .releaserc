@@ -12,12 +12,6 @@
        {"preset": "angular"}
      ],
      "@semantic-release/changelog",
-     [
-       "@semantic-release/git",
-       {
-         "assets": "fakeFile",
-         "message": "Release ${nextRelease.version}\n\n${nextRelease.notes}\n\n[skip ci]"
-       }
-     ],
+     "@semantic-release/git"
   ]
 }
