@@ -6,7 +6,13 @@
      "@semantic-release/commit-analyzer",
      "@semantic-release/release-notes-generator",
      "@semantic-release/changelog",
-     "@semantic-release/git",
+     [
+       "@semantic-release/git",
+       {
+         "assets": [],
+         "message": "Release ${nextRelease.version}\n\n${nextRelease.notes}\n\n[skip ci]"
+       }
+     ],
   ],
   "preset": "angular"
 }
