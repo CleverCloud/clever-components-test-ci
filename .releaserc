@@ -9,7 +9,7 @@
      [
        "@semantic-release/git",
        {
-         "assets": [],
+         "assets": "fakeFile",
          "message": "Release ${nextRelease.version}\n\n${nextRelease.notes}\n\n[skip ci]"
        }
      ],
