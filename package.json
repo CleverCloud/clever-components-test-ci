@@ -13,7 +13,7 @@
     "dist"
   ],
   "scripts": {
-    "release": "semantic-release --debug --no-ci"
+    "release": "semantic-release --debug"
   },
   "dependencies": {
   },
