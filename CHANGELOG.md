@@ -4,6 +4,15 @@ title: Changelog
 ---
 # Clever Components changelog
 
+# [1.5.0](https://github.com/CleverCloud/clever-components-test-ci/compare/1.4.0...1.5.0) (2022-09-28)
+
+
+### Features
+
+* **cc-foo:** modify component cc-foo ([d5ae539](https://github.com/CleverCloud/clever-components-test-ci/commit/d5ae53993472ccb0c998e5bb74ab87f90bd2f1eb))
+* **new component:** new component cc-component ([0af92f7](https://github.com/CleverCloud/clever-components-test-ci/commit/0af92f757dcab596e468466f4bc01b3749f0d5f3))
+* **new component:** new component cc-foo ([23a2005](https://github.com/CleverCloud/clever-components-test-ci/commit/23a2005d5de91514a417aabb36c079493b11dbb2))
+
 # [1.4.0](https://github.com/CleverCloud/clever-components-test-ci/compare/1.3.2...1.4.0) (2022-09-28)
 
 
