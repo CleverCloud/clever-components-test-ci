@@ -15,6 +15,7 @@
       {
          "changelogTitle": "---\nkind: 🏠 Home\ntitle: Changelog\n---\n# Clever Components changelog"
       }],
+     "@semantic-release/npm",
      ["@semantic-release/git",
       {"message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}\n\n[skip ci]"}
      ]
