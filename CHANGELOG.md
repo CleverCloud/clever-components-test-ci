@@ -4,6 +4,13 @@ title: Changelog
 ---
 # Clever Components changelog
 
+## [1.8.0](https://github.com/CleverCloud/clever-components-test-ci/compare/v1.7.0...v1.8.0) (2022-09-29)
+
+
+### Features
+
+* with npm publish ([16e4efc](https://github.com/CleverCloud/clever-components-test-ci/commit/16e4efc0a4033120b80f5dd05a0d09ef0087fd46))
+
 ## 9.0.0 (2022-07-19)
 
 ### ⚠️ BREAKING CHANGES
