@@ -4,6 +4,13 @@ title: Changelog
 ---
 # Clever Components changelog
 
+# [1.6.0](https://github.com/CleverCloud/clever-components-test-ci/compare/1.5.0...1.6.0) (2022-09-29)
+
+
+### Features
+
+* add npm publish ([99b6e40](https://github.com/CleverCloud/clever-components-test-ci/commit/99b6e40af6bec08b18afafa2f1be6674e8d3e377))
+
 # [1.5.0](https://github.com/CleverCloud/clever-components-test-ci/compare/1.4.0...1.5.0) (2022-09-28)
 
 
