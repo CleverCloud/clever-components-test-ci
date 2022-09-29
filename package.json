@@ -16,6 +16,7 @@
     "dist"
   ],
   "scripts": {
+    "prepack": "mkdir -p dist && cp src/index.js dist",
     "release": "semantic-release --debug"
   },
   "devDependencies": {
