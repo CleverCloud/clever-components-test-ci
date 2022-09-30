@@ -4,6 +4,17 @@ title: Changelog
 ---
 # Clever Components changelog
 
+## [2.0.1](https://github.com/CleverCloud/clever-components-test-ci/compare/2.0.0...2.0.1) (2022-09-30)
+
+
+### Bug Fixes
+
+* add debug ([8aed3a0](https://github.com/CleverCloud/clever-components-test-ci/commit/8aed3a0932d05ec0f83235148bcc52faac894044))
+* debug ([0b6305c](https://github.com/CleverCloud/clever-components-test-ci/commit/0b6305cb4d6f238bba07011e4996a268b2719808))
+* debug ([c92b91e](https://github.com/CleverCloud/clever-components-test-ci/commit/c92b91e3eb3e59e877ef7335206a3344cee4f771))
+* remove command manifest ([24d720c](https://github.com/CleverCloud/clever-components-test-ci/commit/24d720c35ade1d75fb39db309abe1619462bfa9b))
+* use command manifest ([a924d29](https://github.com/CleverCloud/clever-components-test-ci/commit/a924d297e8b6b3bf826e171488832627a6fddc40))
+
 ## [2.0.0](https://github.com/CleverCloud/clever-components-test-ci/compare/v1.8.0...2.0.0) (2022-09-30)
 
 
