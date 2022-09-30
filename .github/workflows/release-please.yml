@@ -10,10 +10,6 @@ jobs:
     steps:
       - uses: google-github-actions/release-please-action@v3
         id: release
-        with:
-          release-type: node
-          package-name: release-please-action
-          include-v-in-tag: false
       - uses: actions/checkout@v3
         if: ${{ steps.release.outputs.release_created }}
       - uses: volta-cli/action@v1
