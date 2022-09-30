@@ -2,9 +2,10 @@ on:
   push:
     branches:
       - main
-name: release-please
+name: release_please
 jobs:
   release-please:
+    name: release_please
     runs-on: ubuntu-latest
     steps:
       - uses: google-github-actions/release-please-action@v3
@@ -16,20 +17,20 @@ jobs:
         env:
           JSON: ${{ toJSON(github.event) }}
         run: echo $JSON
-      - name: debug steps
+      - name: debug steps.release_please
         env:
-          JSON: ${{ toJSON(steps.release) }}
+          JSON: ${{ toJSON(steps.release_please) }}
         run: echo $JSON
       # The logic below handles the npm publication:
       - uses: actions/checkout@v3
       # these if statements ensure that a publication only occurs when
       # a new release is created:
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release_please.outputs.release_created }}
       - uses: volta-cli/action@v1
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release_please.outputs.release_created }}
       - run: npm ci
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release_please.outputs.release_created }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release_please.outputs.release_created }}
