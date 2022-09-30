@@ -5,6 +5,13 @@ title: Changelog
 # Clever Components changelog
 
 
+## [15.0.1](https://github.com/CleverCloud/clever-components-test-ci/compare/15.0.0...15.0.1) (2022-09-30)
+
+
+### Bug Fixes
+
+* do not skip gihub release ([deb676c](https://github.com/CleverCloud/clever-components-test-ci/commit/deb676cce4c39531449c92821b507b3a28b049b7))
+
 ## [15.0.0](https://github.com/CleverCloud/clever-components-test-ci/compare/v14.0.0...15.0.0) (2022-09-30)
 
 
