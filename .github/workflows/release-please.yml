@@ -13,7 +13,6 @@ jobs:
           release-type: node
           package-name: release-please-action
           include-v-in-tag: false
-          command: manifest
       - name: debug steps
         env:
           JSON: ${{ toJSON(steps) }}
