@@ -5,6 +5,13 @@ title: Changelog
 # Clever Components changelog
 
 
+## [3.0.1](https://github.com/CleverCloud/clever-components-test-ci/compare/3.0.0...3.0.1) (2022-09-30)
+
+
+### Bug Fixes
+
+* bla ([9f7fcd6](https://github.com/CleverCloud/clever-components-test-ci/commit/9f7fcd6c2d74ab385c136a6a72aded8bd937f96f))
+
 ## [3.0.0](https://github.com/CleverCloud/clever-components-test-ci/compare/2.0.1...3.0.0) (2022-09-30)
 
 
