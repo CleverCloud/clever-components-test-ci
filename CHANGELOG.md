@@ -5,6 +5,15 @@ title: Changelog
 # Clever Components changelog
 
 
+## [3.0.2](https://github.com/CleverCloud/clever-components-test-ci/compare/3.0.1...v3.0.2) (2022-09-30)
+
+
+### Bug Fixes
+
+* try to use config ([ad8f485](https://github.com/CleverCloud/clever-components-test-ci/commit/ad8f485e10e0d7d9d77e853665f535b6cdd5fb88))
+* try to use config ([6a541ef](https://github.com/CleverCloud/clever-components-test-ci/commit/6a541efdb2f9ae502e93f323a97fd4ef6a8f2988))
+* try to use config ([8570c7f](https://github.com/CleverCloud/clever-components-test-ci/commit/8570c7ff0923933f369d70b698aacdeccf22da5b))
+
 ## [3.0.1](https://github.com/CleverCloud/clever-components-test-ci/compare/3.0.0...3.0.1) (2022-09-30)
 
 
