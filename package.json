@@ -20,9 +20,12 @@
     "release": "semantic-release --debug"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
+    "husky": "^8.0.1",
     "semantic-release": "^19.0.5"
   },
   "volta": {
