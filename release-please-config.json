@@ -1,68 +1,64 @@
 {
   "$$see": "https://github.com/googleapis/release-please/blob/main/docs/manifest-releaser.md",
-  "packages": {
-    ".": {
-      "release-type": "node",
-      "skip-github-release": true,
-      "plugins": [
-        "sentence-case"
-      ],
-      "pull-request-title-pattern": "chore: release ${version}",
-      "include-v-in-tag": false,
-      "changelog-sections": [
-        {
-          "type": "feat",
-          "section": "Features"
-        },
-        {
-          "type": "newc",
-          "section": "New Component"
-        },
-        {
-          "type": "feature",
-          "section": "Features"
-        },
-        {
-          "type": "fix",
-          "section": "Bug Fixes"
-        },
-        {
-          "type": "perf",
-          "section": "Performance Improvements"
-        },
-        {
-          "type": "revert",
-          "section": "Reverts"
-        },
-        {
-          "type": "docs",
-          "section": "Documentation"
-        },
-        {
-          "type": "style",
-          "section": "Styles"
-        },
-        {
-          "type": "chore",
-          "section": "Miscellaneous Chores"
-        },
-        {
-          "type": "refactor",
-          "section": "Code Refactoring"
-        },
-        {
-          "type": "test",
-          "section": "Tests"
-        },
-        {
-          "type": "build",
-          "section": "Build System"
-        },
-        {
-          "type": "ci",
-          "section": "Continuous Integration"
-        }
-      ]
+  "release-type": "node",
+  "skip-github-release": true,
+  "plugins": [
+    "sentence-case"
+  ],
+  "pull-request-title-pattern": "chore: release ${version}",
+  "include-v-in-tag": false,
+  "changelog-sections": [
+    {
+      "type": "feat",
+      "section": "Features"
+    },
+    {
+      "type": "newc",
+      "section": "New Component"
+    },
+    {
+      "type": "feature",
+      "section": "Features"
+    },
+    {
+      "type": "fix",
+      "section": "Bug Fixes"
+    },
+    {
+      "type": "perf",
+      "section": "Performance Improvements"
+    },
+    {
+      "type": "revert",
+      "section": "Reverts"
+    },
+    {
+      "type": "docs",
+      "section": "Documentation"
+    },
+    {
+      "type": "style",
+      "section": "Styles"
+    },
+    {
+      "type": "chore",
+      "section": "Miscellaneous Chores"
+    },
+    {
+      "type": "refactor",
+      "section": "Code Refactoring"
+    },
+    {
+      "type": "test",
+      "section": "Tests"
+    },
+    {
+      "type": "build",
+      "section": "Build System"
+    },
+    {
+      "type": "ci",
+      "section": "Continuous Integration"
     }
-  }
+  ]
 }
