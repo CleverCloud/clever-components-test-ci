@@ -7,6 +7,7 @@
       "plugins": [
         "sentence-case"
       ],
+      "pull-request-title-pattern": "chore: release ${version}",
       "include-v-in-tag": false,
       "changelog-sections": [
         {
