@@ -11,7 +11,9 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
-          command: manifest
+          release-type: node
+          skip-github-release: true
+          include-v-in-tag: false
       - uses: actions/checkout@v3
         if: ${{ steps.release.outputs.release_created }}
       - uses: volta-cli/action@v1
