@@ -19,6 +19,8 @@
     "prepack": "mkdir -p dist && cp src/index.js dist"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0"
   },
   "volta": {
     "node": "16.13.2",
