@@ -4,6 +4,18 @@ title: Changelog
 ---
 # Clever Components changelog
 
+## [9.1.0](https://github.com/CleverCloud/clever-components-test-ci/compare/9.0.1...9.1.0) (2022-10-17)
+
+
+### Features
+
+* say hello to Clever Cloud ([d168771](https://github.com/CleverCloud/clever-components-test-ci/commit/d1687711d6039490daf316a86b273e4df8241728))
+
+
+### Bug Fixes
+
+* **ci:** use default-branch ([1aaf648](https://github.com/CleverCloud/clever-components-test-ci/commit/1aaf64840b06ddcf23e3761de22a7d1f1b20fc8b))
+
 ## [9.0.1](https://github.com/CleverCloud/clever-components-test-ci/compare/9.0.0...9.0.1) (2022-10-17)
 
 
