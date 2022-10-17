@@ -4,6 +4,13 @@ title: Changelog
 ---
 # Clever Components changelog
 
+## [9.0.1](https://github.com/CleverCloud/clever-components-test-ci/compare/9.0.0...9.0.1) (2022-10-17)
+
+
+### Bug Fixes
+
+* **hello:** fix the main hello world function ([5b07786](https://github.com/CleverCloud/clever-components-test-ci/commit/5b077868c83ba027e0f145a7cffbdfbd0e274362))
+
 ## 9.0.0 (2022-07-19)
 
 ### ⚠️ BREAKING CHANGES
