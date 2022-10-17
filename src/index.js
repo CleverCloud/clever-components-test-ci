@@ -1,3 +1,3 @@
 export default () => {
-  console.log('hello Clever Cloud');
+  console.log('Hello Clever Cloud');
 }
