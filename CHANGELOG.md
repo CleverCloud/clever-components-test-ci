@@ -4,6 +4,13 @@ title: Changelog
 ---
 # Clever Components changelog
 
+## [9.1.1](https://github.com/CleverCloud/clever-components-test-ci/compare/9.1.0...9.1.1) (2022-10-17)
+
+
+### Bug Fixes
+
+* say hello with maj ([a41f6be](https://github.com/CleverCloud/clever-components-test-ci/commit/a41f6be604a7bb0123c0d6b106f5fdefbd4b7163))
+
 ## [9.1.0](https://github.com/CleverCloud/clever-components-test-ci/compare/9.0.1...9.1.0) (2022-10-17)
 
 
