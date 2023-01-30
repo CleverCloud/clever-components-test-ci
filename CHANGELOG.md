@@ -4,6 +4,17 @@ title: Changelog
 ---
 # Clever Components changelog
 
+## [10.0.0](https://github.com/CleverCloud/clever-components-test-ci/compare/9.1.0...10.0.0) (2023-01-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* back to hello world
+
+### Bug Fixes
+
+* back to hello world ([fe0e42a](https://github.com/CleverCloud/clever-components-test-ci/commit/fe0e42a28109bd187faa8135a0bce9ca173a3e0a))
+
 ## [9.1.0](https://github.com/CleverCloud/clever-components-test-ci/compare/9.0.1...9.1.0) (2022-10-17)
 
 
