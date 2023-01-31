@@ -10,7 +10,7 @@ jobs:
   extract-npm-tag:
     runs-on: ubuntu-latest
     outputs:
-      npm_tag: ${{ steps.extract_pre_release.outputs.pre_release }}
+      npm_tag: ${{ steps.extract_npm_tag.outputs.npm_tag }}
     steps:
       - name: Parse tag as SemVer
         id: parse_semver
@@ -19,13 +19,13 @@ jobs:
           input_string: ${{ github.ref_name }}
         continue-on-error: true
       - name: Extract npm tag
-        id: extract_pre_release
+        id: extract_npm_tag
         if: ${{ steps.parse_semver.outcome == 'success' }}
         shell: bash
         run: |
           TAG="latest"
-          if [[ "${{ steps.semver_parser.outputs.prerelease }}" != "" ]]; then
-            TAG="${{ steps.semver_parser.outputs.prerelease }}"
+          if [[ "${{ steps.parse_semver.outputs.prerelease }}" != "" ]]; then
+            TAG="${{ steps.parse_semver.outputs.prerelease }}"
           fi
           echo "npm_tag=$TAG" >> $GITHUB_OUTPUT
       - if: ${{ steps.parse_semver.outcome == 'failure' }}
