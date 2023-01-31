@@ -22,7 +22,7 @@ jobs:
           regex: '^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-([a-zA-Z]+)\.(?:0|[1-9]\d*))?$'
       - name: Parse version
         id: version_parse
-        if: ${{ steps.version_regex.outputs.match != '' }}
+        if: steps.version_regex.outputs.match != ''
         shell: bash
         run: |
           TAG="latest"
@@ -34,17 +34,15 @@ jobs:
           echo "skip=false" >> $GITHUB_OUTPUT
   publish-npm:
     needs: pre-publish
-    if: ${{ needs.pre-publish.outputs.skip == 'false' }}
+    if: needs.pre-publish.outputs.skip == 'false'
     runs-on: ubuntu-latest
     steps:
-      - shell: bash
-        name: [NPM] Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}
+      - name: [NPM] Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}
         run: echo "[NPM] Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}"
   publish-cdn:
     needs: pre-publish
-    if: ${{ needs.pre-publish.outputs.skip == 'false' }}
+    if: needs.pre-publish.outputs.skip == 'false'
     runs-on: ubuntu-latest
     steps:
-      - shell: bash
-        name: [CDN] Publish version ${{ github.ref_name }}
+      - name: [CDN] Publish version ${{ github.ref_name }}
         run: echo "[CDN] Publish version ${{ github.ref_name }}"
