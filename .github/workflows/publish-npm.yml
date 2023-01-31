@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: npm_tag
-        run: echo "tag=${${{needs.pre-publish.outputs.prerelease}}:-latest}" >> $GITHUB_OUTPUT
+        run: p=${{ needs.pre-publish.outputs.prerelease }} && echo "tag=${p:-latest}" >> $GITHUB_OUTPUT
       - run: echo "${{steps.npm_tag.outputs.tag}}"
       - name: NPM - Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}
         run: echo "[NPM] Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}"
