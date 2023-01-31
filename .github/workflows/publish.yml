@@ -2,7 +2,10 @@ name: publish-npm
 on:
   push:
     tags:
-      - 'jhdfkljg'
+      - '[0-9]+\.[0-9]+\.[0-9]+'
+      - '[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+'
+      - '[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+'
+      - '[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+'
 jobs:
   extract-npm-tag:
     runs-on: ubuntu-latest
@@ -17,16 +20,17 @@ jobs:
         continue-on-error: true
       - name: Extract npm tag
         id: extract_pre_release
-        if: ${{ steps.parse_semver.outputs.match != '' }}
+        if: ${{ steps.parse_semver.outcome == 'success' }}
         shell: bash
         run: |
           TAG="latest"
-          if [[ "${{ steps.parse_semver.outputs.group5 }}" != "" ]]; then
-            TAG="${{ steps.parse_semver.outputs.group5 }}"
+          if [[ "${{ steps.semver_parser.outputs.prerelease }}" != "" ]]; then
+            TAG="${{ steps.semver_parser.outputs.prerelease }}"
           fi
           echo "npm_tag=$TAG" >> $GITHUB_OUTPUT
-      - if: ${{ steps.extract_pre_release.outputs.match == '' }}
-        run: echo "Nothing to do"
+      - if: ${{ steps.parse_semver.outcome == 'failure' }}
+        name: Not a version tag... no publish
+        run: echo "Not a version tag... no publish"
   publish-npm:
     needs: extract-npm-tag
     if: ${{ needs.extract-npm-tag.outputs.npm_tag != '' }}
