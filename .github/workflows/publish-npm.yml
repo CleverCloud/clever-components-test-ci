@@ -25,11 +25,7 @@ jobs:
         if: steps.version_regex.outputs.match != ''
         shell: bash
         run: |
-          TAG="latest"
-          if [[ "${{ steps.version_regex.outputs.group1 }}" != "" ]]; then
-            TAG="${{ steps.version_regex.outputs.group1 }}"
-          fi
-          echo "prerelease=$TAG" >> $GITHUB_OUTPUT
+          echo "prerelease=${{ steps.version_regex.outputs.group }}" >> $GITHUB_OUTPUT
           echo "version=${{ steps.version_regex.outputs.match != '' }}" >> $GITHUB_OUTPUT
           echo "skip=false" >> $GITHUB_OUTPUT
   publish-npm:
@@ -37,8 +33,11 @@ jobs:
     if: needs.pre-publish.outputs.skip == 'false'
     runs-on: ubuntu-latest
     steps:
-      - name: NPM - Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}
-        run: echo "[NPM] Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}"
+      - id: npm_tag
+        run: echo "tag=${${{prerelease}}:-latest}" >> $GITHUB_OUTPUT
+      - run: echo "${{steps.npm_tag.outputs.tag}}"
+      - name: NPM - Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}
+        run: echo "[NPM] Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}"
   publish-cdn:
     needs: pre-publish
     if: needs.pre-publish.outputs.skip == 'false'
