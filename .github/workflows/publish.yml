@@ -16,7 +16,7 @@ jobs:
         id: parse_semver
         uses: apexskier/github-semver-parse@v1
         with:
-          input_string: ${{ github.ref_name }}
+          version: ${{ github.ref_name }}
         continue-on-error: true
       - name: Extract npm tag
         id: extract_npm_tag
