@@ -4,11 +4,33 @@ on:
     tags:
       - '*'
 jobs:
-  build:
+  extract-npm-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      npm_tag: ${{ steps.extract_npm_tag.outputs.npm_tag }}
+    steps:
+      - name: Decode version from tag
+        id: version_regex
+        uses: actions-ecosystem/action-regex-match@v2
+        with:
+          text: ${{ github.ref_name }}
+          regex: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-([a-zA-Z])+\.(0|[1-9]\d*))?$'
+      - name: Extract npm tag from version
+        id: extract_npm_tag
+        if: ${{ steps.version_regex.outputs.match != '' }}
+        shell: bash
+        run: |
+          TAG="latest"
+          if [[ "${{ steps.extract_npm_tag.outputs.group5 }}" != "" ]]; then
+            TAG="${{ steps.extract_npm_tag.outputs.group5 }}"
+          fi
+          echo "npm_tag=$TAG" >> $GITHUB_OUTPUT
+      - if: ${{ steps.version_regex.outputs.match == '' }}
+        run: echo "Nothing to do"
+  publish-npm:
+    needs: extract-npm-tag
+    if: ${{ needs.extract-npm-tag.outputs.npm_tag != '' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: volta-cli/action@v4
-      - name: Extract branch name
-        shell: bash
-        run: echo "tag name = $GITHUB_REF_NAME"
+      - shell: bash
+        run: echo "Publish npm with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}"
