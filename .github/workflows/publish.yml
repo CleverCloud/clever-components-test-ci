@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Parse tag as SemVer
         id: parse_semver
-        uses: booxmedialtd/ws-action-parse-semver@v1
+        uses: apexskier/github-semver-parse@v1
         with:
           input_string: ${{ github.ref_name }}
         continue-on-error: true
