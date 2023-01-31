@@ -14,6 +14,7 @@ jobs:
       prerelease: ${{ steps.version_parse.outputs.prerelease }}
       skip: ${{ steps.version_parse.outputs.skip }}
     steps:
+      - run: echo ${{ github.event.release.target_commitish }}
       - name: Decode version from tag
         id: version_regex
         uses: KyoriPowered/action-regex-match@v3
@@ -33,9 +34,9 @@ jobs:
     if: needs.pre-publish.outputs.skip == 'false'
     runs-on: ubuntu-latest
     steps:
-      - id: npm_tag
+      - name: Find NPM tag
+        id: npm_tag
         run: p=${{ needs.pre-publish.outputs.prerelease }} && echo "tag=${p:-latest}" >> $GITHUB_OUTPUT
-      - run: echo "${{steps.npm_tag.outputs.tag}}"
       - name: NPM - Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}
         run: echo "[NPM] Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}"
   publish-cdn:
