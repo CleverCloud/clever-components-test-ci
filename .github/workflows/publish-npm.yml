@@ -7,10 +7,12 @@ on:
       - '[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+'
       - '[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+'
 jobs:
-  extract-npm-tag:
+  pre-publish:
     runs-on: ubuntu-latest
     outputs:
-      npm_tag: ${{ steps.extract_npm_tag.outputs.npm_tag }}
+      version: ${{ steps.version_parse.outputs.version }}
+      prerelease: ${{ steps.version_parse.outputs.prerelease }}
+      skip: ${{ steps.version_parse.outputs.skip }}
     steps:
       - name: Decode version from tag
         id: version_regex
@@ -18,8 +20,8 @@ jobs:
         with:
           text: ${{ github.ref_name }}
           regex: '^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-([a-zA-Z]+)\.(?:0|[1-9]\d*))?$'
-      - name: Extract npm tag from version
-        id: extract_npm_tag
+      - name: Parse version
+        id: version_parse
         if: ${{ steps.version_regex.outputs.match != '' }}
         shell: bash
         run: |
@@ -27,12 +29,22 @@ jobs:
           if [[ "${{ steps.version_regex.outputs.group1 }}" != "" ]]; then
             TAG="${{ steps.version_regex.outputs.group1 }}"
           fi
-          echo "npm_tag=$TAG" >> $GITHUB_OUTPUT
+          echo "prerelease=$TAG" >> $GITHUB_OUTPUT
+          echo "version=${{ steps.version_regex.outputs.match != '' }}" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
   publish-npm:
-    needs: extract-npm-tag
-    if: ${{ needs.extract-npm-tag.outputs.npm_tag != '' }}
+    needs: pre-publish
+    if: ${{ needs.pre-publish.outputs.skip == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - shell: bash
-        name: Publish version ${{ github.ref_name }} to NPM with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}
-        run: echo "Publish npm with tag '${{ needs.extract-npm-tag.outputs.npm_tag }}'"
+        name: [NPM] Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}
+        run: echo "[NPM] Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}"
+  publish-cdn:
+    needs: pre-publish
+    if: ${{ needs.pre-publish.outputs.skip == 'false' }}
+    runs-on: ubuntu-latest
+    steps:
+      - shell: bash
+        name: [CDN] Publish version ${{ github.ref_name }}
+        run: echo "[CDN] Publish version ${{ github.ref_name }}"
