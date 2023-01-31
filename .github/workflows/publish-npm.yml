@@ -12,7 +12,7 @@ jobs:
     outputs:
       version: ${{ steps.version_parse.outputs.version }}
       prerelease: ${{ steps.version_parse.outputs.prerelease }}
-      skip: ${{ steps.version_parse.outputs.skip }}
+      skip-publish: ${{ steps.version_parse.outputs.skip-publish }}
     steps:
       - name: Decode version from tag
         id: version_regex
@@ -31,5 +31,11 @@ jobs:
           fi
           echo "prerelease=$TAG" >> $GITHUB_OUTPUT
           echo "version=${{ steps.version_regex.outputs.match != '' }}" >> $GITHUB_OUTPUT
-          echo "skip=false" >> $GITHUB_OUTPUT
-          
+          echo "skip-publish=false" >> $GITHUB_OUTPUT
+  publish-npm:
+    needs: pre-publish
+    if: needs.pre-publish.outputs.skip == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: [NPM] Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}
+        run: echo "[NPM] Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}"
