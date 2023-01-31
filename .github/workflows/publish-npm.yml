@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Decode version from tag
         id: version_regex
-        uses: actions-ecosystem/action-regex-match@v2
+        uses: KyoriPowered/action-regex-match@v3
         with:
           text: ${{ github.ref_name }}
           regex: '^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-([a-zA-Z]+)\.(?:0|[1-9]\d*))?$'
@@ -34,5 +34,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - shell: bash
-        name: Publish version
+        name: Publish version ${{ github.ref_name }} to NPM with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}
         run: echo "Publish npm with tag '${{ needs.extract-npm-tag.outputs.npm_tag }}'"
