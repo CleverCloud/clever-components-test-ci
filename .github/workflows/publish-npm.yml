@@ -32,10 +32,17 @@ jobs:
           echo "prerelease=$TAG" >> $GITHUB_OUTPUT
           echo "version=${{ steps.version_regex.outputs.match != '' }}" >> $GITHUB_OUTPUT
           echo "skip-publish=false" >> $GITHUB_OUTPUT
+  publish-npm:
+    needs: pre-publish
+    if: needs.pre-publish.outputs.skip == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: NPM Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}
+        run: echo "[NPM] Publish version ${{ github.ref_name }} with tag ${{ needs.extract-npm-tag.outputs.npm_tag }}"
   publish-cdn:
     needs: pre-publish
     if: needs.pre-publish.outputs.skip == 'false'
     runs-on: ubuntu-latest
     steps:
-      - name: [CDN] Publish version ${{ github.ref_name }}
+      - name: CDN Publish version ${{ github.ref_name }}
         run: echo "[CDN] Publish version ${{ github.ref_name }}"
