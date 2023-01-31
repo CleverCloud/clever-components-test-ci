@@ -30,7 +30,7 @@ jobs:
           echo "npm_tag=$TAG" >> $GITHUB_OUTPUT
       - if: ${{ steps.parse_semver.outcome == 'failure' }}
         name: Not a version tag... no publish
-        run: echo "Not a version tag... no publish!!"
+        run: echo "Not a version tag... no publish"
   publish-npm:
     needs: extract-npm-tag
     if: ${{ needs.extract-npm-tag.outputs.npm_tag != '' }}
