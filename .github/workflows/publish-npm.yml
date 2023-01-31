@@ -21,8 +21,8 @@ jobs:
         shell: bash
         run: |
           TAG="latest"
-          if [[ "${{ steps.extract_npm_tag.outputs.group5 }}" != "" ]]; then
-            TAG="${{ steps.extract_npm_tag.outputs.group5 }}"
+          if [[ "${{ steps.version_regex.outputs.group5 }}" != "" ]]; then
+            TAG="${{ steps.version_regex.outputs.group5 }}"
           fi
           echo "npm_tag=$TAG" >> $GITHUB_OUTPUT
       - if: ${{ steps.version_regex.outputs.match == '' }}
