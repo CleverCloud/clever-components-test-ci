@@ -12,9 +12,8 @@ jobs:
     outputs:
       version: ${{ steps.version_parse.outputs.version }}
       prerelease: ${{ steps.version_parse.outputs.prerelease }}
-      skip: ${{ steps.version_parse.outputs.skip }}
+      release-needed: ${{ steps.version_parse.outputs.release-needed }}
     steps:
-      - run: echo ${{ github.event.release.target_commitish }}
       - name: Decode version from tag
         id: version_regex
         uses: KyoriPowered/action-regex-match@v3
@@ -28,10 +27,10 @@ jobs:
         run: |
           echo "prerelease=${{ steps.version_regex.outputs.group1 }}" >> $GITHUB_OUTPUT
           echo "version=${{ steps.version_regex.outputs.match != '' }}" >> $GITHUB_OUTPUT
-          echo "skip=false" >> $GITHUB_OUTPUT
+          echo "release-needed=true" >> $GITHUB_OUTPUT
   publish-npm:
     needs: pre-publish
-    if: needs.pre-publish.outputs.skip == 'false'
+    if: needs.pre-publish.outputs.release-needed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Find NPM tag
@@ -41,7 +40,7 @@ jobs:
         run: echo "[NPM] Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}"
   publish-cdn:
     needs: pre-publish
-    if: needs.pre-publish.outputs.skip == 'false'
+    if: needs.pre-publish.outputs.release-needed == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: CDN - Publish version ${{ github.ref_name }}
