@@ -6,13 +6,14 @@ on:
       - '[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+'
 jobs:
   pre-publish:
-    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version_parse.outputs.version }}
       prerelease: ${{ steps.version_parse.outputs.prerelease }}
       release-needed: ${{ steps.version_parse.outputs.release-needed }}
     steps:
+      - name: Ref
+        run: echo ${{ github.ref }}
       - name: Decode version from tag
         id: version_regex
         uses: KyoriPowered/action-regex-match@v3
