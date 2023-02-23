@@ -1,13 +1,12 @@
-name: publish-npm
+name: publish
 on:
   push:
     tags:
       - '[0-9]+\.[0-9]+\.[0-9]+'
-      - '[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+'
       - '[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+'
-      - '[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+'
 jobs:
   pre-publish:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version_parse.outputs.version }}
@@ -19,7 +18,7 @@ jobs:
         uses: KyoriPowered/action-regex-match@v3
         with:
           text: ${{ github.ref_name }}
-          regex: '^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-([a-zA-Z]+)\.(?:0|[1-9]\d*))?$'
+          regex: '^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(beta)\.(?:0|[1-9]\d*))?$'
       - name: Parse version
         id: version_parse
         if: steps.version_regex.outputs.match != ''
@@ -33,11 +32,26 @@ jobs:
     if: needs.pre-publish.outputs.release-needed == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Find NPM tag
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+      - uses: volta-cli/action@v4
+
+      - name: Extract NPM tag
         id: npm_tag
         run: p=${{ needs.pre-publish.outputs.prerelease }} && echo "tag=${p:-latest}" >> $GITHUB_OUTPUT
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: NPM - Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}
-        run: echo "[NPM] Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}"
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+          npm publish --tag ${{ steps.npm_tag.outputs.tag }}
+          echo "[NPM] Published version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   publish-cdn:
     needs: pre-publish
     if: needs.pre-publish.outputs.release-needed == 'true'
