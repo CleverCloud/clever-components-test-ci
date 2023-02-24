@@ -4,6 +4,14 @@ title: Changelog
 ---
 # Clever Components changelog
 
+## [10.8.0](https://github.com/CleverCloud/clever-components-test-ci/compare/10.7.0...10.8.0) (2023-02-24)
+
+
+### Features
+
+* beta ([43b4a6b](https://github.com/CleverCloud/clever-components-test-ci/commit/43b4a6b6f383d366ae290a98d598a9f7e3a34976))
+* publish simple ([e874a9f](https://github.com/CleverCloud/clever-components-test-ci/commit/e874a9fbd2dd2299ad37072d1b54f6cdde296846))
+
 ## [10.7.0](https://github.com/CleverCloud/clever-components-test-ci/compare/10.6.0...10.7.0) (2023-02-24)
 
 
