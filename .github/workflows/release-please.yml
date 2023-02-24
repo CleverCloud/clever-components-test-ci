@@ -33,7 +33,7 @@ jobs:
         id: version_regex
         uses: KyoriPowered/action-regex-match@v3
         with:
-          text: ${{ github.ref_name }}
+          text: ${{ needs.release-please.outputs.tag_name }}
           regex: '^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(beta)\.(?:0|[1-9]\d*))?$'
       - name: Parse version
         id: version_parse
