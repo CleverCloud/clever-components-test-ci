@@ -27,7 +27,7 @@ jobs:
     outputs:
       version: ${{ steps.version_parse.outputs.version }}
       prerelease: ${{ steps.version_parse.outputs.prerelease }}
-      skip_publish: ${{ steps.version_parse.outputs.skip-publish }}
+      skip_publish: ${{ steps.version_parse.outputs.skip_publish }}
     steps:
       - name: Decode version from tag
         id: version_regex
@@ -42,10 +42,10 @@ jobs:
         run: |
           echo "prerelease=${{ steps.version_regex.outputs.group1 }}" >> $GITHUB_OUTPUT
           echo "version=${{ steps.version_regex.outputs.match }}" >> $GITHUB_OUTPUT
-          echo "skip-publish=false" >> $GITHUB_OUTPUT
+          echo "skip_publish=false" >> $GITHUB_OUTPUT
   publish-npm:
     needs: pre-publish
-    if: needs.pre-publish.outputs.skip-publish == 'false'
+    if: needs.pre-publish.outputs.skip_publish == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -66,7 +66,7 @@ jobs:
           npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
   publish-cdn:
     needs: pre-publish
-    if: needs.pre-publish.outputs.skip-publish == 'false'
+    if: needs.pre-publish.outputs.skip_publish == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
