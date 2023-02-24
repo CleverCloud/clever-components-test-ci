@@ -19,6 +19,7 @@ jobs:
         with:
           release-type: node
           include-v-in-tag: false
+          prerelease: beta
           default-branch: ${{ env.BRANCH_NAME }}
   pre-publish:
     needs: release-please
