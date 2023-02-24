@@ -10,7 +10,7 @@ jobs:
     outputs:
       version: ${{ steps.version_parse.outputs.version }}
       prerelease: ${{ steps.version_parse.outputs.prerelease }}
-      release-needed: ${{ steps.version_parse.outputs.release-needed }}
+      skip-publish: ${{ steps.version_parse.outputs.skip-publish }}
     steps:
       - name: Decode version from tag
         id: version_regex
@@ -25,52 +25,46 @@ jobs:
         run: |
           echo "prerelease=${{ steps.version_regex.outputs.group1 }}" >> $GITHUB_OUTPUT
           echo "version=${{ steps.version_regex.outputs.match != '' }}" >> $GITHUB_OUTPUT
-          echo "release-needed=true" >> $GITHUB_OUTPUT
+          echo "skip-publish=false" >> $GITHUB_OUTPUT
   publish-npm:
     needs: pre-publish
-    if: needs.pre-publish.outputs.release-needed == 'true'
+    if: needs.pre-publish.outputs.skip-publish == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
-
       - uses: volta-cli/action@v4
-
       - name: Extract NPM tag
         id: npm_tag
         run: p=${{ needs.pre-publish.outputs.prerelease }} && echo "tag=${p:-latest}" >> $GITHUB_OUTPUT
-
       - name: Install dependencies
         run: npm ci
-
       - name: Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-          npm publish --tag ${{ steps.npm_tag.outputs.tag }}
+          npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
   publish-cdn:
     needs: pre-publish
-    if: needs.pre-publish.outputs.release-needed == 'true'
+    if: needs.pre-publish.outputs.skip-publish == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
-
       - uses: volta-cli/action@v4
-
       - name: Install dependencies
         run: npm ci
-
       - name: Build
+        env:
+          GIT_TAG_NAME: ${{ github.ref_name }}
         run: |
           npm run components:build-cdn
           npm run components:build-cdn:versions-list
-
       - name: Publish version ${{ github.ref_name }}
         env:
           GIT_TAG_NAME: ${{ github.ref_name }}
