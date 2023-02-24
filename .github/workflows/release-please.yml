@@ -21,8 +21,9 @@ jobs:
           include-v-in-tag: false
           default-branch: ${{ env.BRANCH_NAME }}
   pre-publish:
-    runs-on: ubuntu-latest
+    needs: release-please
     if: needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version_parse.outputs.version }}
       prerelease: ${{ steps.version_parse.outputs.prerelease }}
