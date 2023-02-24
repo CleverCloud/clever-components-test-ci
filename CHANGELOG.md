@@ -4,6 +4,13 @@ title: Changelog
 ---
 # Clever Components changelog
 
+## [10.3.0](https://github.com/CleverCloud/clever-components-test-ci/compare/10.2.0...10.3.0) (2023-02-24)
+
+
+### Features
+
+* bar ([e33a041](https://github.com/CleverCloud/clever-components-test-ci/commit/e33a0410257773a604ca72a9c8c69ae40fd5699a))
+
 ## [10.2.0](https://github.com/CleverCloud/clever-components-test-ci/compare/10.1.0...10.2.0) (2023-02-24)
 
 
