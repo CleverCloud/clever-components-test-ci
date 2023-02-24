@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: |
           echo "prerelease=${{ steps.version_regex.outputs.group1 }}" >> $GITHUB_OUTPUT
-          echo "version=${{ steps.version_regex.outputs.match != '' }}" >> $GITHUB_OUTPUT
+          echo "version=${{ steps.version_regex.outputs.match }}" >> $GITHUB_OUTPUT
           echo "skip-publish=false" >> $GITHUB_OUTPUT
   publish-npm:
     needs: pre-publish

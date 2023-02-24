@@ -41,7 +41,7 @@ jobs:
         shell: bash
         run: |
           echo "prerelease=${{ steps.version_regex.outputs.group1 }}" >> $GITHUB_OUTPUT
-          echo "version=${{ steps.version_regex.outputs.match != '' }}" >> $GITHUB_OUTPUT
+          echo "version=${{ steps.version_regex.outputs.match }}" >> $GITHUB_OUTPUT
           echo "skip-publish=false" >> $GITHUB_OUTPUT
   publish-npm:
     needs: pre-publish
@@ -51,14 +51,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: ${{ github.ref_name }}
+          ref: ${{ needs.pre-publish.outputs.version }}
       - uses: volta-cli/action@v4
       - name: Extract NPM tag
         id: npm_tag
         run: p=${{ needs.pre-publish.outputs.prerelease }} && echo "tag=${p:-latest}" >> $GITHUB_OUTPUT
       - name: Install dependencies
         run: npm ci
-      - name: Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}
+      - name: Publish version ${{ needs.pre-publish.outputs.version }} with tag ${{ steps.npm_tag.outputs.tag }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
@@ -72,19 +72,19 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: ${{ github.ref_name }}
+          ref: ${{ needs.pre-publish.outputs.version }}
       - uses: volta-cli/action@v4
       - name: Install dependencies
         run: npm ci
       - name: Build
         env:
-          GIT_TAG_NAME: ${{ github.ref_name }}
+          GIT_TAG_NAME: ${{ needs.pre-publish.outputs.version }}
         run: |
           npm run components:build-cdn
           npm run components:build-cdn:versions-list
-      - name: Publish version ${{ github.ref_name }}
+      - name: Publish version ${{ needs.pre-publish.outputs.version }}
         env:
-          GIT_TAG_NAME: ${{ github.ref_name }}
+          GIT_TAG_NAME: ${{ needs.pre-publish.outputs.version }}
           SMART_CDN_CELLAR_KEY_ID: ${{ secrets.SMART_CDN_CELLAR_KEY_ID }}
           SMART_CDN_CELLAR_SECRET_KEY: ${{ secrets.SMART_CDN_CELLAR_SECRET_KEY }}
         run: npm run components:publish-cdn
