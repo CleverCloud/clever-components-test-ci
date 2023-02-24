@@ -56,6 +56,13 @@ jobs:
     if: needs.pre-publish.outputs.release-needed == 'true'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+
+      - uses: volta-cli/action@v4
+
       - name: Install dependencies
         run: npm ci
 
