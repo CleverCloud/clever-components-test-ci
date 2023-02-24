@@ -5,87 +5,61 @@ on:
       - 'fix/**'
 name: release-please
 jobs:
-  release-please:
-    name: release-please
+  release:
+    name: release
     runs-on: ubuntu-latest
     outputs:
-      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.tag_name }}
       release_created: ${{ steps.release.outputs.release_created }}
     steps:
       - name: Extract branch name
+        shell: bash
         run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
           release-type: node
           include-v-in-tag: false
-          prerelease: true
           default-branch: ${{ env.BRANCH_NAME }}
-  pre-publish:
-    needs: release-please
-    if: needs.release-please.outputs.release_created == 'true'
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version_parse.outputs.version }}
-      prerelease: ${{ steps.version_parse.outputs.prerelease }}
-      skip_publish: ${{ steps.version_parse.outputs.skip_publish }}
-    steps:
-      - name: Decode version from tag
-        id: version_regex
-        uses: KyoriPowered/action-regex-match@v3
-        with:
-          text: ${{ needs.release-please.outputs.tag_name }}
-          regex: '^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(beta)\.(?:0|[1-9]\d*))?$'
-      - name: Parse version
-        id: version_parse
-        if: steps.version_regex.outputs.match != ''
-        shell: bash
-        run: |
-          echo "prerelease=${{ steps.version_regex.outputs.group1 }}" >> $GITHUB_OUTPUT
-          echo "version=${{ steps.version_regex.outputs.match }}" >> $GITHUB_OUTPUT
-          echo "skip_publish=false" >> $GITHUB_OUTPUT
   publish-npm:
-    needs: pre-publish
-    if: needs.pre-publish.outputs.skip_publish == 'false'
+    needs: release
+    if: needs.release.outputs.release_created == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: ${{ needs.pre-publish.outputs.version }}
+          ref: ${{ needs.release.outputs.version }}
       - uses: volta-cli/action@v4
-      - name: Extract NPM tag
-        id: npm_tag
-        run: p=${{ needs.pre-publish.outputs.prerelease }} && echo "tag=${p:-latest}" >> $GITHUB_OUTPUT
       - name: Install dependencies
         run: npm ci
-      - name: Publish version ${{ needs.pre-publish.outputs.version }} with tag ${{ steps.npm_tag.outputs.tag }}
+      - name: Publish version ${{ needs.release.outputs.version }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-          npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
+          npm publish --access public
   publish-cdn:
-    needs: pre-publish
-    if: needs.pre-publish.outputs.skip_publish == 'false'
+    needs: release
+    if: needs.release.outputs.release_created == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: ${{ needs.pre-publish.outputs.version }}
+          ref: ${{ needs.release.outputs.version }}
       - uses: volta-cli/action@v4
       - name: Install dependencies
         run: npm ci
       - name: Build
         env:
-          GIT_TAG_NAME: ${{ needs.pre-publish.outputs.version }}
+          GIT_TAG_NAME: ${{ needs.release.outputs.version }}
         run: |
           npm run components:build-cdn
           npm run components:build-cdn:versions-list
-      - name: Publish version ${{ needs.pre-publish.outputs.version }}
+      - name: Publish version ${{ needs.release.outputs.version }}
         env:
-          GIT_TAG_NAME: ${{ needs.pre-publish.outputs.version }}
+          GIT_TAG_NAME: ${{ needs.release.outputs.version }}
           SMART_CDN_CELLAR_KEY_ID: ${{ secrets.SMART_CDN_CELLAR_KEY_ID }}
           SMART_CDN_CELLAR_SECRET_KEY: ${{ secrets.SMART_CDN_CELLAR_SECRET_KEY }}
         run: npm run components:publish-cdn
