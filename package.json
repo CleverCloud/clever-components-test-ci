@@ -1,6 +1,6 @@
 {
   "name": "@pdesoyres/test-ci",
-  "version": "10.1.1",
+  "version": "10.1.2",
   "description": "CI test",
   "license": "Apache-2.0",
   "repository": {
@@ -16,7 +16,10 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "mkdir -p dist && cp src/index.js dist"
+    "prepack": "mkdir -p dist && cp src/index.js dist",
+    "components:build-cdn": "echo 'components:build-cdn'",
+    "components:build-cdn:versions-list": "echo 'components:build-cdn:versions-list'",
+    "components:publish-cdn": "echo \"components:publish-cdn $GIT_TAG_NAME $SMART_CDN_CELLAR_KEY_ID $SMART_CDN_CELLAR_SECRET_KEY\""
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
