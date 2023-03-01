@@ -2,10 +2,11 @@ on:
   pull_request:
     types:
       - synchronize
+      - opened
 name: preview
 jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
       - name: Debug
-        run: echo ${{ toJSON(github) }}
+        run: echo "${{ toJSON(github) }}"
