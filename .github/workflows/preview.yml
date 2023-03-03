@@ -28,7 +28,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `🔎 A preview has automatically been published at ${process.env.PREVIEW_BASE_URL}/${process.env.BRANCH}/index.html. _This preview will be deleted once this PR is closed._`
+              body: `🔎 A preview has been automatically published : ${process.env.PREVIEW_BASE_URL}/${process.env.BRANCH}/index.html.\n\n_This preview will be deleted once this PR is closed._`
             });
   delete:
     if: github.event.action == 'closed' && github.event.repository.fork == false
