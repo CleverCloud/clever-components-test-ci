@@ -27,9 +27,9 @@ jobs:
         with:
           script: |
             await github.rest.issues.createComment({
-              owner: context.payload.pull_request.base.repo.owner.login,
-              repo: context.payload.pull_request.base.repo.name,
-              issue_number: context.payload.number,
+              owner: context.pull_request.base.repo.owner.login,
+              repo: context.pull_request.base.repo.name,
+              issue_number: context.number,
               body: `🔎 A preview has automatically been published at https://clever-components-preview.cellar-c2.services.clever-cloud.com/${github.event.pull_request.head.ref}/index.html. _This preview will be deleted once this PR is closed._`
             });
   delete:
