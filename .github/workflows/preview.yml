@@ -7,7 +7,7 @@ on:
 name: preview
 jobs:
   publish:
-    if: (github.event.action == 'synchronize' || github.event.name == 'opened') && github.event.repository.fork == false
+    if: (github.event.action == 'synchronize' || github.event.action == 'opened') && github.event.repository.fork == false
     runs-on: ubuntu-latest
     steps:
       - name: Publish preview
