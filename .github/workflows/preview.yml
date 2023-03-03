@@ -16,27 +16,19 @@ jobs:
           fetch-depth: 0
       - name: 'Publish preview'
         run: npm run preview:publish
-      - name: 'Debug'
-        uses: actions/github-script@v6
-        with:
-          script: |
-            console.log(JSON.stringify(context, null, 2));
       - name: 'Add comment'
-        if: github.event.action == 'synchronize' || github.event.action == 'opened'
+        if: github.event.action == 'opened'
         uses: actions/github-script@v6
         env:
+          PREVIEW_BASE_URL: https://clever-components-preview.cellar-c2.services.clever-cloud.com
           BRANCH: ${{ github.event.pull_request.head.ref }}
         with:
           script: |
-            console.log(JSON.stringify(context.repo, null, 2));
-            console.log(JSON.stringify(context.issue, null, 2));
-            console.log(process.env.BRANCH);
-            
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `🔎 A preview has automatically been published at https://clever-components-preview.cellar-c2.services.clever-cloud.com/${process.env.BRANCH}/index.html. _This preview will be deleted once this PR is closed._`
+              body: `🔎 A preview has automatically been published at ${process.env.PREVIEW_BASE_URL}/${process.env.BRANCH}/index.html. _This preview will be deleted once this PR is closed._`
             });
   delete:
     if: github.event.action == 'closed' && github.event.repository.fork == false
@@ -53,8 +45,8 @@ jobs:
         with:
           script: |
             await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.pull_request.number,
+             owner: context.repo.owner,
+             repo: context.repo.repo,
+             issue_number: context.issue.number,
               body: `🔎 The preview has automatically deleted.`
             });
