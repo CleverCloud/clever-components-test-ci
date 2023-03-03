@@ -14,7 +14,7 @@ jobs:
         run: npm run preview:publish
       - name: Add comment
         if: github.event.name == 'opened'
-        uses: actions/github-scripts@v5
+        uses: actions/github-script@v6
         with:
           script: |
             await github.rest.issues.createComment({
@@ -31,7 +31,7 @@ jobs:
         run: npm run preview:delete
       - name: Add comment
         if: github.event.name == 'opened'
-        uses: actions/github-scripts@v5
+        uses: actions/github-script@v6
         with:
           script: |
             await github.rest.issues.createComment({
