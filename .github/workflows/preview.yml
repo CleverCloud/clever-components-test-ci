@@ -28,7 +28,7 @@ jobs:
           script: |
             console.log(JSON.stringify(context.repo, null, 2));
             console.log(JSON.stringify(context.issue, null, 2));
-            console.log(github.event.pull_request.head.ref);
+            console.log(context.ref);
             
             await github.rest.issues.createComment({
               owner: context.repo.owner,
