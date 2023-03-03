@@ -20,13 +20,12 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            console.log(toJson(context));
+            console.log(JSON.stringify(context, null, 2));
       - name: 'Add comment'
         if: github.event.action == 'opened'
         uses: actions/github-script@v6
         with:
           script: |
-            console.log(toJson(context));
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
