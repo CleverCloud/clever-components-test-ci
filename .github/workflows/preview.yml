@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Publish preview
         run: npm run preview:publish
+      - name: Add comment
         use: actions/github-scripts@v6
         if: github.event.name == 'opened'
         with:
@@ -30,6 +31,7 @@ jobs:
     steps:
       - name: Delete preview
         run: npm run preview:delete
+      - name: Add comment
         use: actions/github-scripts@v6
         if: github.event.name == 'opened'
         with:
