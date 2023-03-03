@@ -17,7 +17,7 @@ jobs:
       - name: 'Publish preview'
         run: npm run preview:publish
       - name: 'Add comment'
-        if: github.event.name == 'opened'
+        if: github.event.action == 'opened'
         uses: actions/github-script@v6
         with:
           script: |
@@ -38,7 +38,6 @@ jobs:
       - name: 'Delete preview'
         run: npm run preview:delete
       - name: 'Add comment'
-        if: github.event.name == 'opened'
         uses: actions/github-script@v6
         with:
           script: |
