@@ -7,7 +7,7 @@ on:
 name: preview
 jobs:
   publish:
-    if: ${{ (github.event.action == 'synchronize' || github.event.name == 'opened') && context.event.repository.fork == false }}
+    if: ${{ (github.event.action == 'synchronize' || github.event.name == 'opened') && github.event.repository.fork == false }}
     runs-on: ubuntu-latest
     steps:
       - name: Publish preview
@@ -25,7 +25,7 @@ jobs:
       - name: Debug
         run: echo "${{ toJSON(github) }}"
   delete:
-    if: ${{ (github.event.action == 'closed') && context.event.repository.fork == false }}
+    if: ${{ (github.event.action == 'closed') && github.event.repository.fork == false }}
     runs-on: ubuntu-latest
     steps:
       - name: Delete preview
