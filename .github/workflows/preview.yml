@@ -3,10 +3,40 @@ on:
     types:
       - synchronize
       - opened
+      - closed
 name: preview
 jobs:
-  preview:
+  publish:
+    if: (github.event.action == 'synchronize' || github.event.name == 'opened') && github.event.repository.fork == false
     runs-on: ubuntu-latest
     steps:
-      - name: Debug
-        run: echo "${{ toJSON(github) }}"
+      - name: Publish preview
+        run: npm run preview:publish
+      - name: Add comment
+        if: github.event.name == 'opened'
+        uses: actions/github-scripts@v6
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.pull_request.number,
+              body: `🔎 A preview has automatically been published at https://clever-components-preview.cellar-c2.services.clever-cloud.com/${context.pull_request.head.ref}/index.html. _This preview will be deleted once this PR is closed._`
+            });
+  delete:
+    if: github.event.action == 'closed' && github.event.repository.fork == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete preview
+        run: npm run preview:delete
+      - name: Add comment
+        if: github.event.name == 'opened'
+        uses: actions/github-scripts@v6
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.pull_request.number,
+              body: `🔎 The preview has automatically deleted.`
+            });
