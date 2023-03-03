@@ -23,8 +23,6 @@ jobs:
               issue_number: context.pull_request.number,
               body: `🔎 A preview has automatically been published at https://clever-components-preview.cellar-c2.services.clever-cloud.com/${context.pull_request.head.ref}/index.html. _This preview will be deleted once this PR is closed._`
             });
-      - name: Debug
-        run: echo "${{ toJSON(github) }}"
   delete:
     if: github.event.action == 'closed' && github.event.repository.fork == false
     runs-on: ubuntu-latest
