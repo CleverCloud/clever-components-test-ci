@@ -10,9 +10,13 @@ jobs:
     if: (github.event.action == 'synchronize' || github.event.action == 'opened') && github.event.repository.fork == false
     runs-on: ubuntu-latest
     steps:
-      - name: Publish preview
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: 'Publish preview'
         run: npm run preview:publish
-      - name: Add comment
+      - name: 'Add comment'
         if: github.event.name == 'opened'
         uses: actions/github-script@v6
         with:
@@ -27,9 +31,13 @@ jobs:
     if: github.event.action == 'closed' && github.event.repository.fork == false
     runs-on: ubuntu-latest
     steps:
-      - name: Delete preview
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: 'Delete preview'
         run: npm run preview:delete
-      - name: Add comment
+      - name: 'Add comment'
         if: github.event.name == 'opened'
         uses: actions/github-script@v6
         with:
