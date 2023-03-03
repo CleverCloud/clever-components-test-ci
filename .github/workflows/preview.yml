@@ -26,7 +26,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            console.log(JSON.stringify(context.pull_request, null, 2));
+            console.log(JSON.stringify(context.repo, null, 2));
             
             await github.rest.issues.createComment({
               owner: context.pull_request.repo.owner.login,
