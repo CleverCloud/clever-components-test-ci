@@ -13,7 +13,7 @@ jobs:
       - name: Publish preview
         run: npm run preview:publish
         use: actions/github-scripts@v6
-        if: ${{ github.event.name == 'opened') }}
+        if: github.event.name == 'opened'
         with:
           script: |
             await github.rest.issues.createComment({
@@ -31,7 +31,7 @@ jobs:
       - name: Delete preview
         run: npm run preview:delete
         use: actions/github-scripts@v6
-        if: ${{ github.event.name == 'opened') }}
+        if: github.event.name == 'opened'
         with:
           script: |
             await github.rest.issues.createComment({
