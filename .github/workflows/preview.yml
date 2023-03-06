@@ -16,7 +16,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.1
         id: wait-for-build
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           check-name: test
           ref: ${{ github.event.pull_request.head.sha }}
       - name: 'Do something with a passing build'
