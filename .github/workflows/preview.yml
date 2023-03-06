@@ -20,7 +20,6 @@ jobs:
           allowed-conclusions: success
   publish:
     needs: pre_publish
-    if: needs.pre_publish.outputs.build_status == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'
