@@ -1,28 +1,18 @@
 on:
-  pull_request:
+  workflow_run:
+    workflows: ["Check"]
     types:
-      - synchronize
-      - opened
-      - closed
+      - completed
 name: preview
 jobs:
-  wait_for_build:
-    name: 'Wait for build to succeed'
-    if: (github.event.action == 'synchronize' || github.event.action == 'opened') && github.event.repository.fork == false
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Wait for build to succeed'
-        uses: lewagon/wait-on-check-action@v1.3.1
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          check-name: test
-          ref: ${{ github.event.pull_request.head.sha }}
-          allowed-conclusions: success
   publish:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: 'Publish Preview'
     needs: wait_for_build
     runs-on: ubuntu-latest
     steps:
+      - name: 'debug'
+        run: echo {{ toJson(github.event.workflow_run) }}
       - name: 'Checkout'
         uses: actions/checkout@v3
         with:
