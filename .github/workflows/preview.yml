@@ -9,8 +9,6 @@ jobs:
   pre_publish:
     if: (github.event.action == 'synchronize' || github.event.action == 'opened') && github.event.repository.fork == false
     runs-on: ubuntu-latest
-    outputs:
-      build_status: ${{ steps.after_build.outputs.build_status }}
     steps:
       - name: 'Wait for build to succeed'
         uses: lewagon/wait-on-check-action@v1.3.1
@@ -19,9 +17,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           check-name: test
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: 'Do something with a passing build'
-        id: after_build
-        run: echo "build_status=${{ steps.wait-for-build.outputs.conclusion }}" >> $GITHUB_OUTPUT
+          allowed-conclusions: success
   publish:
     needs: pre_publish
     if: needs.pre_publish.outputs.build_status == 'success'
