@@ -22,7 +22,7 @@
     "components:publish-cdn": "echo \"components:publish-cdn $GIT_TAG_NAME $SMART_CDN_CELLAR_KEY_ID $SMART_CDN_CELLAR_SECRET_KEY\"",
     "preview:publish": "echo 'publish preview'",
     "preview:delete": "echo 'delete preview'",
-    "check:success": "echo 'start checking' && sleep 20 && echo 'check done' && exit 1",
+    "check:success": "echo 'start checking' && sleep 20 && echo 'check done'",
     "check:failure": "echo 'start checking' && sleep 20 && echo 'check done' && exit 1"
   },
   "devDependencies": {

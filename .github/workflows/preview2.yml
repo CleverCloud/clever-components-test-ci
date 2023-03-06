@@ -1,0 +1,56 @@
+on:
+  workflow_run:
+    workflows: ["Check"]
+    types:
+      - completed
+name: preview
+jobs:
+  publish:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: 'Publish Preview'
+    needs: wait_for_build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'debug'
+        run: echo {{ toJson(github.event.workflow_run) }}
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: 'Publish preview'
+        run: npm run preview:publish
+      - name: 'Add comment'
+        if: github.event.action == 'opened'
+        uses: actions/github-script@v6
+        env:
+          PREVIEW_BASE_URL: https://clever-components-preview.cellar-c2.services.clever-cloud.com
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🤖 🔎 A preview has been automatically published : ${process.env.PREVIEW_BASE_URL}/${process.env.BRANCH}/index.html.\n\n_This preview will be deleted once this PR is closed._`
+            });
+  delete:
+    if: github.event.action == 'closed' && github.event.repository.fork == false
+    name: 'Delete Preview'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: 'Delete preview'
+        run: npm run preview:delete
+      - name: 'Add comment'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.issues.createComment({
+             owner: context.repo.owner,
+             repo: context.repo.repo,
+             issue_number: context.issue.number,
+              body: `🤖 🔎 The preview has been automatically deleted.`
+            });
