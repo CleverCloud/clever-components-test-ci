@@ -4,7 +4,7 @@ on:
       - synchronize
       - opened
       - closed
-name: preview
+name: Preview
 jobs:
   wait_for_build:
     name: 'Wait for build to succeed'
@@ -26,13 +26,22 @@ jobs:
     needs: wait_for_build
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout'
+      - name: '[Prepare] Checkout'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: 'Publish preview'
+      - name: '[Prepare] Setup Node.js'
+        uses: volta-cli/action@v4
+      - name: '[Prepare] Install dependencies'
+        uses: npm ci
+
+      - name: '[Run] Publish preview'
         run: npm run preview:publish
-      - name: 'Add comment'
+        env:
+          PREVIEWS_CELLAR_KEY_ID: ${{ secrets.PREVIEWS_CELLAR_KEY_ID }}
+          PREVIEWS_CELLAR_SECRET_KEY: ${{ secrets.PREVIEWS_CELLAR_SECRET_KEY }}
+
+      - name: '[Finalize] Add comment'
         if: github.event.action == 'opened'
         uses: actions/github-script@v6
         env:
@@ -44,7 +53,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `🤖 🔎 A preview has been automatically published : ${process.env.PREVIEW_BASE_URL}/${process.env.BRANCH}/index.html.\n\n_This preview will be deleted once this PR is closed._`
+              body: `🔎 A preview has been automatically published : ${process.env.PREVIEW_BASE_URL}/${process.env.BRANCH}/index.html.\n\n_This preview will be deleted once this PR is closed._`
             });
   delete:
     if: |
@@ -54,13 +63,22 @@ jobs:
     name: 'Delete Preview'
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout'
+      - name: '[Prepare] Checkout'
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: 'Delete preview'
+      - name: '[Prepare] Setup Node.js'
+        uses: volta-cli/action@v4
+      - name: '[Prepare] Install dependencies'
+        uses: npm ci
+
+      - name: '[Run] Delete preview'
         run: npm run preview:delete
-      - name: 'Add comment'
+        env:
+          PREVIEWS_CELLAR_KEY_ID: ${{ secrets.PREVIEWS_CELLAR_KEY_ID }}
+          PREVIEWS_CELLAR_SECRET_KEY: ${{ secrets.PREVIEWS_CELLAR_SECRET_KEY }}
+
+      - name: '[Finalize] Add comment'
         uses: actions/github-script@v6
         with:
           script: |
@@ -68,5 +86,5 @@ jobs:
              owner: context.repo.owner,
              repo: context.repo.repo,
              issue_number: context.issue.number,
-              body: `🤖 🔎 The preview has been automatically deleted.`
+              body: `🔎 The preview has been automatically deleted.`
             });
