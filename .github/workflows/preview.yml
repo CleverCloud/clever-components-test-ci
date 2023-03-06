@@ -13,7 +13,7 @@ jobs:
       build_status: ${{ steps.after_build.outputs.build_status }}
     steps:
       - name: 'Wait for build to succeed'
-        uses: lewagon/wait-on-check-action@v1
+        uses: lewagon/wait-on-check-action@v1.3.1
         id: wait-for-build
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
