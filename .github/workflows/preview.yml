@@ -8,7 +8,10 @@ name: preview
 jobs:
   wait_for_build:
     name: 'Wait for build to succeed'
-    if: (github.event.action == 'synchronize' || github.event.action == 'opened') && github.event.repository.fork == false
+    if: |
+      (github.event.action == 'synchronize' || github.event.action == 'opened') && 
+      github.event.repository.fork == false && 
+      !startsWith(github.event.pull_request.head.ref, 'release-please--')
     runs-on: ubuntu-latest
     steps:
       - name: 'Wait for build to succeed'
@@ -44,7 +47,10 @@ jobs:
               body: `🤖 🔎 A preview has been automatically published : ${process.env.PREVIEW_BASE_URL}/${process.env.BRANCH}/index.html.\n\n_This preview will be deleted once this PR is closed._`
             });
   delete:
-    if: github.event.action == 'closed' && github.event.repository.fork == false
+    if: |
+      github.event.action == 'closed' && 
+      github.event.repository.fork == false &&
+      !startsWith(github.event.pull_request.head.ref, 'release-please--')
     name: 'Delete Preview'
     runs-on: ubuntu-latest
     steps:
