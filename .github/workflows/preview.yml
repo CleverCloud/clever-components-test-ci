@@ -70,7 +70,7 @@ jobs:
       - name: '[Prepare] Setup Node.js'
         uses: volta-cli/action@v4
       - name: '[Prepare] Install dependencies'
-        uses: npm ci
+        run: npm ci
 
       - name: '[Run] Delete preview'
         run: npm run preview:delete
