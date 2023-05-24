@@ -1,0 +1,50 @@
+on:
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - closed
+name: GitHubApiSandbox
+jobs:
+  GitHubApiSandbox:
+    runs-on: ubuntu-latest
+    steps:
+      - name: '[Run]'
+        uses: actions/github-script@v6
+        env:
+          PREVIEW_BASE_URL: https://clever-components-preview.cellar-c2.services.clever-cloud.com
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        with:
+          script: |
+            const url = `${process.env.PREVIEW_BASE_URL}/${process.env.BRANCH}/index.html`;
+            
+            console.log(context);
+            console.log(context.payload.pull_request.head.sha);
+            console.log(context.sha);
+
+            const {data} = await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head_sha: context.payload.pull_request.head.sha,
+              details_url: url,
+              name: 'Test With API',
+              status: 'completed',
+              conclusion: 'success',
+              started_at: new Date().toISOString(),
+              completed_at: new Date().toISOString(),
+              output: {
+                title: 'Test With API',
+                summary: 'Summary',
+                text: 'Text'
+              }
+            });
+            
+            console.log(data);
+      - uses: LouisBrunner/checks-action@v1.6.0
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Test XYZ
+          conclusion: ${{ job.status }}
+          output: |
+            {"summary":"${{ steps.test.outputs.summary }}"}
