@@ -4,6 +4,26 @@ title: Changelog
 ---
 # Clever Components changelog
 
+## [11.0.0](https://github.com/CleverCloud/clever-components-test-ci/compare/10.8.0...11.0.0) (2023-10-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* **coucou:** we were on Node 6
+    - deleted API foo
+    - deleted API bar
+
+### 🚀 Features
+
+* bar ([318b773](https://github.com/CleverCloud/clever-components-test-ci/commit/318b7731bf65b0a55566cc5da9a94dfde997a640))
+* **coucou:** buz reworded ([39d772e](https://github.com/CleverCloud/clever-components-test-ci/commit/39d772ed9f7ee9f557f6ead0e7e1763b4b9b4f05))
+* customize changelog headers ([d3abf06](https://github.com/CleverCloud/clever-components-test-ci/commit/d3abf0665e702490922ee184159bdd9bea5cb480))
+
+
+### 🐛 Bug Fixes
+
+* fix preview workflow ([d118e4c](https://github.com/CleverCloud/clever-components-test-ci/commit/d118e4cc0f6e6edd372d2804df17b50e9eaa91f9))
+
 ## [10.9.0](https://github.com/CleverCloud/clever-components-test-ci/compare/10.8.0...10.9.0) (2023-03-06)
 
 
