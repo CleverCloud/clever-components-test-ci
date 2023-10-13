@@ -33,10 +33,18 @@ jobs:
       - name: '[Prepare] Setup Node.js'
         uses: volta-cli/action@v4
       - name: '[Prepare] Install dependencies'
-        run: npm ci
+        uses: nick-fields/retry@v2
+        with:
+          command: npm ci
+          timeout_minutes: 10
+          max_attempts: 3
 
       - name: '[Run] Publish preview'
-        run: npm run preview:publish
+        uses: nick-fields/retry@v2
+        with:
+          command: npm run preview:publish
+          timeout_minutes: 10
+          max_attempts: 3
         env:
           PREVIEWS_CELLAR_KEY_ID: ${{ secrets.PREVIEWS_CELLAR_KEY_ID }}
           PREVIEWS_CELLAR_SECRET_KEY: ${{ secrets.PREVIEWS_CELLAR_SECRET_KEY }}
@@ -70,10 +78,18 @@ jobs:
       - name: '[Prepare] Setup Node.js'
         uses: volta-cli/action@v4
       - name: '[Prepare] Install dependencies'
-        run: npm ci
+        uses: nick-fields/retry@v2
+        with:
+          command: npm ci
+          timeout_minutes: 10
+          max_attempts: 3
 
       - name: '[Run] Delete preview'
-        run: npm run preview:delete
+        uses: nick-fields/retry@v2
+        with:
+          command: npm run preview:delete
+          timeout_minutes: 10
+          max_attempts: 3
         env:
           PREVIEWS_CELLAR_KEY_ID: ${{ secrets.PREVIEWS_CELLAR_KEY_ID }}
           PREVIEWS_CELLAR_SECRET_KEY: ${{ secrets.PREVIEWS_CELLAR_SECRET_KEY }}

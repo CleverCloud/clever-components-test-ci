@@ -40,13 +40,21 @@ jobs:
         id: npm_tag
         run: p=${{ needs.pre-publish.outputs.prerelease }} && echo "tag=${p:-latest}" >> $GITHUB_OUTPUT
       - name: Install dependencies
-        run: npm ci
+        uses: nick-fields/retry@v2
+        with:
+          command: npm ci
+          timeout_minutes: 10
+          max_attempts: 3
       - name: Publish version ${{ github.ref_name }} with tag ${{ steps.npm_tag.outputs.tag }}
+        uses: nick-fields/retry@v2
+        with:
+          command: |
+            npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+            npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
+          timeout_minutes: 10
+          max_attempts: 3
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-          npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
   publish-cdn:
     needs: pre-publish
     if: needs.pre-publish.outputs.skip-publish == 'false'
@@ -58,7 +66,11 @@ jobs:
           ref: ${{ github.ref_name }}
       - uses: volta-cli/action@v4
       - name: Install dependencies
-        run: npm ci
+        uses: nick-fields/retry@v2
+        with:
+          command: npm ci
+          timeout_minutes: 10
+          max_attempts: 3
       - name: Build
         env:
           GIT_TAG_NAME: ${{ github.ref_name }}
@@ -66,8 +78,12 @@ jobs:
           npm run components:build-cdn
           npm run components:build-cdn:versions-list
       - name: Publish version ${{ github.ref_name }}
+        uses: nick-fields/retry@v2
+        with:
+          command: npm run components:publish-cdn
+          timeout_minutes: 10
+          max_attempts: 3
         env:
           GIT_TAG_NAME: ${{ github.ref_name }}
           SMART_CDN_CELLAR_KEY_ID: ${{ secrets.SMART_CDN_CELLAR_KEY_ID }}
           SMART_CDN_CELLAR_SECRET_KEY: ${{ secrets.SMART_CDN_CELLAR_SECRET_KEY }}
-        run: npm run components:publish-cdn
