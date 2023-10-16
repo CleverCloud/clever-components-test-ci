@@ -35,7 +35,14 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
-      - uses: volta-cli/action@v4
+      - name: '[Prepare] Get Node.js version'
+        id: node_version
+        run: echo "version=$(cat package.json | jq -r .volta.node)" >> $GITHUB_OUTPUT
+      - name: '[Prepare] Setup Node.js'
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{steps.node_version.outputs.version}}
+          cache: 'npm'
       - name: Extract NPM tag
         id: npm_tag
         run: p=${{ needs.pre-publish.outputs.prerelease }} && echo "tag=${p:-latest}" >> $GITHUB_OUTPUT
@@ -64,7 +71,14 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
-      - uses: volta-cli/action@v4
+      - name: '[Prepare] Get Node.js version'
+        id: node_version
+        run: echo "version=$(cat package.json | jq -r .volta.node)" >> $GITHUB_OUTPUT
+      - name: '[Prepare] Setup Node.js'
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{steps.node_version.outputs.version}}
+          cache: 'npm'
       - name: Install dependencies
         uses: nick-fields/retry@v2
         with:
