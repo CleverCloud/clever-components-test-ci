@@ -13,10 +13,27 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: volta-cli/action@v4
+
+      - name: '[Prepare] Setup Node.js'
+        uses: volta-cli/action@v4
 
       - name: Install dependencies
-        run: npm ci
+        uses: nick-fields/retry@v2
+        with:
+          command: npm ci
+          timeout_minutes: 10
+          max_attempts: 3
+
+      - name: Echo env
+        uses: nick-fields/retry@v2
+        with:
+          command: |
+            echo $MY_ENV
+            env
+          timeout_minutes: 10
+          max_attempts: 3
+        env:
+          MY_ENV: my_value
 
       - name: Run check
         run: npm run check:success
